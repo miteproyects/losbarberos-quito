@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" fill="none" role="img" aria-label="Los Barberos Quito">
+  <!-- Outer ring -->
+  <circle cx="210" cy="210" r="198" stroke="currentColor" stroke-width="4" />
+  <circle cx="210" cy="210" r="188" stroke="currentColor" stroke-width="1.5" opacity=".6" />
+
+  <!-- Top arc text "LOS BARBEROS" -->
+  <defs>
+    <path id="topArc" d="M 50,210 A 160,160 0 0 1 370,210" />
+    <path id="bottomArc" d="M 80,260 A 135,135 0 0 0 340,260" />
+  </defs>
+
+  <text font-family="Georgia, 'Playfair Display', serif" font-size="34" letter-spacing="6" fill="currentColor" font-weight="700">
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle">LOS · BARBEROS</textPath>
+  </text>
+
+  <!-- Bottom arc "QUITO • ECUADOR" -->
+  <text font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" letter-spacing="8" fill="currentColor" font-weight="600">
+    <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">QUITO  •  ECUADOR</textPath>
+  </text>
+
+  <!-- Left scissors -->
+  <g transform="translate(38,210) rotate(-90)" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none">
+    <circle cx="-16" cy="-10" r="8"/>
+    <circle cx="-16" cy="10" r="8"/>
+    <path d="M -8,-6 L 30,0 L -8,6" />
+    <path d="M 30,0 L 48,0" />
+  </g>
+  <!-- Right scissors (mirror) -->
+  <g transform="translate(382,210) rotate(90) scale(-1,1)" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none">
+    <circle cx="-16" cy="-10" r="8"/>
+    <circle cx="-16" cy="10" r="8"/>
+    <path d="M -8,-6 L 30,0 L -8,6" />
+    <path d="M 30,0 L 48,0" />
+  </g>
+
+  <!-- Central medallion: stylized bearded barber -->
+  <g transform="translate(210,205)" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <!-- Inner circle frame -->
+    <circle r="84" stroke-width="2"/>
+
+    <!-- Pompadour hair -->
+    <path d="M -48,-40 C -58,-78 -10,-92 0,-70 C 10,-92 58,-78 48,-40 Q 52,-20 44,-10 L -44,-10 Q -52,-20 -48,-40 Z" fill="currentColor"/>
+    <!-- Part line -->
+    <path d="M -6,-74 Q 6,-50 2,-20" stroke-width="1.5" opacity=".5"/>
+
+    <!-- Face outline -->
+    <path d="M -42,-14 C -42,10 -36,34 -22,50 Q 0,60 22,50 C 36,34 42,10 42,-14" />
+
+    <!-- Ears -->
+    <path d="M -42,-2 q -6,2 -6,10 q 0,8 6,10"/>
+    <path d="M 42,-2 q 6,2 6,10 q 0,8 -6,10"/>
+
+    <!-- Eyes -->
+    <circle cx="-16" cy="0" r="2.5" fill="currentColor" stroke="none"/>
+    <circle cx="16" cy="0" r="2.5" fill="currentColor" stroke="none"/>
+    <!-- Eyebrows -->
+    <path d="M -24,-10 q 8,-4 16,0"/>
+    <path d="M 8,-10 q 8,-4 16,0"/>
+
+    <!-- Nose -->
+    <path d="M 0,2 q -3,10 -6,14 q 3,2 6,0 q 3,2 6,0 q -3,-4 -6,-14 Z"/>
+
+    <!-- Moustache -->
+    <path d="M -24,24 q 8,-6 12,-2 q 6,6 12,2 q 6,4 12,2 q 4,-4 12,2 q -6,8 -18,6 q -4,0 -6,-2 q -2,2 -6,2 q -12,2 -18,-10 Z" fill="currentColor" stroke="none"/>
+
+    <!-- Beard -->
+    <path d="M -32,26 Q -34,48 -22,62 Q -10,70 0,68 Q 10,70 22,62 Q 34,48 32,26 Q 26,38 14,36 Q 0,40 -14,36 Q -26,38 -32,26 Z" fill="currentColor" stroke="none"/>
+    <!-- Beard lower accent -->
+    <path d="M -18,58 Q 0,74 18,58" opacity=".4"/>
+
+    <!-- Collar -->
+    <path d="M -60,78 L -30,66 L -20,84 L 20,84 L 30,66 L 60,78"/>
+    <!-- Bowtie -->
+    <path d="M -14,82 L -4,76 L -4,88 Z M 14,82 L 4,76 L 4,88 Z M -4,76 L 4,76 L 4,88 L -4,88 Z" fill="currentColor" stroke="none"/>
+  </g>
+
+  <!-- Small stars flanking title -->
+  <g fill="currentColor">
+    <polygon points="46,210 50,204 54,210 50,216" opacity=".9"/>
+    <polygon points="366,210 370,204 374,210 370,216" opacity=".9"/>
+  </g>
+
+  <!-- Bottom ribbon accents -->
+  <g stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".75">
+    <path d="M 150,320 L 270,320"/>
+    <circle cx="210" cy="320" r="3" fill="currentColor" stroke="none"/>
+    <path d="M 175,330 L 245,330" opacity=".5"/>
+  </g>
+
+  <!-- Corner barber poles (subtle) -->
+  <g opacity=".35" stroke="currentColor" stroke-width="1.5">
+    <line x1="60"  y1="60"  x2="78"  y2="78"/>
+    <line x1="360" y1="60"  x2="342" y2="78"/>
+    <line x1="60"  y1="360" x2="78"  y2="342"/>
+    <line x1="360" y1="360" x2="342" y2="342"/>
+  </g>
+</svg>

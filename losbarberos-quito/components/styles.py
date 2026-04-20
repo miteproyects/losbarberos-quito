@@ -1,6 +1,29 @@
 """Custom CSS + a floating WhatsApp button. Modern dark-luxury barbershop theme."""
+from pathlib import Path
 import streamlit as st
 from components.config import WHATSAPP_NUMBER
+
+
+# ---- Load the Los Barberos logo once at import time ----
+_LOGO_PATH = Path(__file__).resolve().parent.parent / "assets" / "logo.svg"
+try:
+    LOGO_SVG = _LOGO_PATH.read_text(encoding="utf-8")
+except FileNotFoundError:
+    LOGO_SVG = ""
+
+
+def logo_svg(css_class: str = "") -> str:
+    """Return the Los Barberos SVG logo with an optional CSS class.
+
+    Because the SVG uses `currentColor` for every stroke/fill, the color is
+    fully driven by the wrapping element — perfect for theme switching.
+    """
+    if not LOGO_SVG:
+        return ""
+    if css_class:
+        # Inject the class on the root <svg> tag.
+        return LOGO_SVG.replace("<svg ", f'<svg class="{css_class}" ', 1)
+    return LOGO_SVG
 
 
 def init_theme():
@@ -383,32 +406,173 @@ label p {color: var(--text-dim) !important; font-weight: 600 !important;}
 .fade-up {animation: fadeUp .6s ease both;}
 @keyframes fadeUp {from {opacity: 0; transform: translateY(16px);} to {opacity: 1; transform: translateY(0);}}
 
-/* ---------- Theme toggle button (sun / moon) — matches ES/EN height ---------- */
-.theme-toggle-wrap .stButton > button,
-.theme-toggle-wrap .stButton > button[kind="primary"],
-.theme-toggle-wrap .stButton > button[kind="secondary"] {
+/* ---------- Nav action pills (theme toggle + ES + EN on same centerline) ---------- */
+/* Key: target any stHorizontalBlock that :has(.nav-pill) anywhere inside → that's
+   the actions row. Then force: centered columns, zero-height marker divs,
+   and one unified pill height for all three buttons. */
+
+/* 1. Vertical-center the whole columns row so pills share a horizontal centerline */
+div[data-testid="stHorizontalBlock"]:has(.nav-pill) {
+    align-items: center !important;
+    gap: .5rem !important;
+}
+/* 2. Each column also flex-centers its content vertically */
+div[data-testid="stHorizontalBlock"]:has(.nav-pill) [data-testid="column"],
+div[data-testid="stHorizontalBlock"]:has(.nav-pill) [data-testid="stColumn"] {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+/* 3. The marker-only markdown stElementContainers (the `<div class="nav-pill">`
+   wrappers) must take zero vertical space so the button sits exactly at column center */
+div[data-testid="stHorizontalBlock"]:has(.nav-pill) [data-testid="stElementContainer"]:has(.nav-pill) {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+div[data-testid="stHorizontalBlock"]:has(.nav-pill) [data-testid="stElementContainer"]:has(.nav-pill) * {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+/* 4. The stElementContainer that wraps each button: keep its height locked to 44px
+   so all three columns are the SAME height (prerequisite for centered alignment) */
+div[data-testid="stHorizontalBlock"]:has(.nav-pill) [data-testid="stElementContainer"]:has(.stButton) {
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+/* 5. Every button in this row shares one height + pill shape + centered content */
+div[data-testid="stHorizontalBlock"]:has(.nav-pill) .stButton,
+div[data-testid="stHorizontalBlock"]:has(.nav-pill) .stButton > button,
+div[data-testid="stHorizontalBlock"]:has(.nav-pill) .stButton > button[kind="primary"],
+div[data-testid="stHorizontalBlock"]:has(.nav-pill) .stButton > button[kind="secondary"] {
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    border-radius: 999px !important;
+    padding: 0 1.1rem !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    transition: transform .2s, background .2s, box-shadow .2s, border-color .2s, color .2s !important;
+}
+
+/* 6. Theme toggle palette overrides (gold-on-glass, bigger emoji) */
+div[data-testid="stHorizontalBlock"]:has(.theme-toggle-wrap) [data-testid="column"]:first-child .stButton > button {
     background: var(--card-bg) !important;
     color: var(--gold) !important;
     border: 1px solid var(--line) !important;
-    border-radius: 999px !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    height: auto !important;
-    padding: .7rem 1.4rem !important;   /* same vertical padding as ES/EN */
-    font-size: 1.1rem !important;
-    font-weight: 400 !important;
-    line-height: 1 !important;
-    display: flex !important; align-items: center !important; justify-content: center !important;
+    font-size: 1.1rem !important;   /* emoji glyph a touch bigger than "ES" */
     backdrop-filter: blur(20px);
-    transition: transform .2s, background .2s, box-shadow .2s, border-color .2s !important;
     box-shadow: none !important;
 }
-.theme-toggle-wrap .stButton > button:hover {
+div[data-testid="stHorizontalBlock"]:has(.theme-toggle-wrap) [data-testid="column"]:first-child .stButton > button:hover {
     transform: translateY(-1px) !important;
     background: rgba(212,162,76,.12) !important;
     border-color: var(--gold) !important;
     color: var(--gold) !important;
     box-shadow: 0 8px 22px rgba(212,162,76,.25) !important;
+}
+
+/* ---------- Logo ---------- */
+/* SVG uses `currentColor` → the wrapping element's `color` drives the line art */
+
+/* Navbar mark */
+.brand-logo-wrap {
+    display: inline-flex; align-items: center; gap: .85rem;
+    text-decoration: none;
+}
+.brand-logo {
+    width: 52px; height: 52px; flex: 0 0 auto;
+    color: var(--gold);
+    filter: drop-shadow(0 0 10px rgba(212,162,76,.35));
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), filter .3s;
+}
+.brand-logo-wrap:hover .brand-logo {
+    transform: rotate(-8deg) scale(1.08);
+    filter: drop-shadow(0 0 16px rgba(212,162,76,.65));
+}
+.brand-text {display: flex; flex-direction: column; line-height: 1;}
+.brand-text .brand-top {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: .95rem; color: var(--gold); letter-spacing: .08em;
+}
+.brand-text .brand-bot {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.45rem; letter-spacing: 4px; color: var(--text);
+    margin-top: .15rem;
+}
+.brand-text .brand-bot span {color: var(--gold);}
+
+/* Hero centerpiece logo with rotating gold halo */
+.hero-logo-stage {
+    position: relative;
+    width: clamp(220px, 28vw, 320px);
+    aspect-ratio: 1/1;
+    margin: 0 auto 1.75rem auto;
+    display: flex; align-items: center; justify-content: center;
+}
+/* Rotating outer ring — conic gradient of gold stops */
+.hero-logo-stage::before {
+    content: "";
+    position: absolute; inset: -14px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        rgba(212,162,76,0) 0deg,
+        rgba(212,162,76,.75) 60deg,
+        rgba(232,192,112,1) 120deg,
+        rgba(212,162,76,.75) 180deg,
+        rgba(212,162,76,0) 240deg,
+        rgba(212,162,76,.35) 300deg,
+        rgba(212,162,76,0) 360deg
+    );
+    -webkit-mask: radial-gradient(circle, transparent 62%, #000 63%, #000 70%, transparent 71%);
+            mask: radial-gradient(circle, transparent 62%, #000 63%, #000 70%, transparent 71%);
+    animation: haloSpin 9s linear infinite;
+    filter: blur(1px);
+    pointer-events: none;
+}
+/* Soft gold glow behind the medallion */
+.hero-logo-stage::after {
+    content: "";
+    position: absolute; inset: 8%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,162,76,.35) 0%, rgba(212,162,76,0) 70%);
+    filter: blur(18px);
+    pointer-events: none;
+    z-index: 0;
+}
+@keyframes haloSpin {
+    from {transform: rotate(0deg);}
+    to   {transform: rotate(360deg);}
+}
+.hero-logo {
+    position: relative; z-index: 1;
+    width: 100%; height: 100%;
+    color: #F5F5F5;   /* logo is always displayed over the dark hero overlay */
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,.55));
+    transition: transform .6s cubic-bezier(.2,.8,.2,1);
+}
+.hero-logo-stage:hover .hero-logo {transform: scale(1.04) rotate(1.5deg);}
+.hero-logo-stage:hover::before {animation-duration: 3s;}
+
+/* Reduced motion — turn off the halo spin */
+@media (prefers-reduced-motion: reduce) {
+    .hero-logo-stage::before {animation: none;}
+    .hero-logo {transition: none;}
 }
 
 /* ---------- Utility ---------- */

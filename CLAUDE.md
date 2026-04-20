@@ -34,23 +34,7 @@ When Sebastián says "syncbp" (or at the start of any session), do this exact se
 
 Ordered, one at a time. Top = do next. Remove items as they complete; promote new items from Current Focus.
 
-**Phase 1 — Clean & Fix** ✅ Complete (2026-04-19)
-
-1. ~~Delete nested `losbarberos-quito/` duplicate.~~ ✅ Done — promoted nested canonical → root via rsync, then removed nested folder.
-2. ~~Fix theme-toggle button shape.~~ ✅ Superseded by redesign — editorial sharp-edge (2px border-radius) pills now match ES/EN across nav.
-3. ~~Fix `Inicio` nav tab black-corner bleed.~~ ✅ Superseded by redesign — option_menu container is now `transparent` and the nav-link selected state uses flat ink-on-cream (no rounded corners bleeding).
-4. ~~Fix brand logo not rendering.~~ ✅ Done — `logo_svg()` already resolves via `Path(__file__).parent.parent / "assets" / "logo.svg"` (inlines the SVG, no static-serving needed). `enableStaticServing = true` added to `.streamlit/config.toml` as belt-and-suspenders.
-5. ~~Wire git remote + push.~~ ✅ Done — deployed to https://losbarberosquito.streamlit.app from `main` → root `app.py`.
-
-**Phase 1.5 — Agency-style redesign** ✅ Complete (2026-04-19)
-
-Full thisisstudiox.com-inspired editorial makeover: cream + ink palette with brass-gold accent (light is now the default theme, dark retained as alt), Fraunces serif display + Inter body + JetBrains Mono kickers, flipped-dark hero panel inside the cream page with oversized serif display-xl, numbered section kickers (01–06), editorial marquee between hero and services, hover-flip-to-dark service cards, asymmetric gallery grid, serif pull-quote testimonials, sharp-edge (2px) minimal buttons with mono labels, unified contact-card styling for both contact + booking summary.
-
-**Phase 2 — Real data (gated on Sebastián)**
-
-6. Populate `EMAIL`, `ADDRESS_ES/EN`, live Google Maps `pb=` embed, verified TikTok URL, real barber portraits in `components/config.py`.
-
----
+<!-- TODO: Sebastián to populate -->
 
 ---
 
@@ -62,14 +46,6 @@ Full thisisstudiox.com-inspired editorial makeover: cream + ink palette with bra
 **Path on Mac:** `/Users/sebastianflores/Desktop/OpenTF/Barberos`
 **Stack:** Streamlit · streamlit-option-menu · Plotly · pandas · SQLite
 **Run:** `streamlit run app.py` (or `./Run-LosBarberos.command`)
-**GitHub:** https://github.com/miteproyects/losbarberos-quito (public)
-**Live URL:** https://losbarberosquito.streamlit.app (Streamlit Community Cloud; `main` branch → `app.py`)
-
----
-
-## Setup
-
-**Cowork workspace selection:** When opening this project in the Cowork desktop app, pick `/Users/sebastianflores/Desktop/OpenTF/Barberos/` as the workspace — **not** the nested `losbarberos-quito/` subfolder. Selecting the subfolder hides `CLAUDE.md` and `CHAT.md`, which breaks the `syncbp` handoff. The parent folder makes both the handoff files and the project tree reachable.
 
 ---
 
@@ -94,7 +70,8 @@ Full thisisstudiox.com-inspired editorial makeover: cream + ink palette with bra
 | `requirements.txt` | streamlit, streamlit-option-menu, plotly, pandas, python-dateutil |
 | `Run-LosBarberos.command` | macOS double-click launcher |
 | `data/` | SQLite DB lives here at runtime |
-| `assets/` | Static images — `logo.svg` lives here |
+| `assets/` | Static images |
+| `losbarberos-quito/` | Nested duplicate of project tree — purpose unclear (TODO: Sebastián to confirm whether this is a staging copy, deploy bundle, or stale artifact to delete) |
 
 ---
 
@@ -112,8 +89,7 @@ Suggested seed topics:
 
 ## Gotchas
 
-- **Default theme is now `light` (cream editorial).** `init_theme()` in `components/styles.py` sets `st.session_state.theme = "light"` on first run. Dark is still reachable via the nav toggle but no longer the default. If Streamlit Cloud caches the old session, a hard refresh may be needed after redeploy.
-- **Navbar layout relies on `:has()` CSS selector.** The editorial 2px-pill alignment (theme toggle + ES + EN) in `components/styles.py` uses `div[data-testid="stHorizontalBlock"]:has(.nav-pill)`. Works in all modern browsers but fails silently on very old versions — the buttons would render but without the shared 40px baseline.
+<!-- TODO: add as you hit them. One-line problem + one-line workaround. -->
 
 ---
 
@@ -129,10 +105,7 @@ Canonical state lives in the task tools; this is a snapshot.
 
 Add a dated entry after each meaningful session. Prune entries older than ~30 days.
 
-- **2026-04-19 — Cowork** — Full agency-style redesign (inspired by thisisstudiox.com) + canonical-copy resolution + Streamlit Cloud redeploy. (1) Rewrote `components/styles.py` with editorial design system: cream `#F2EEE6` + ink `#141414` + brass `#A8762E`, Fraunces serif display + Inter + JetBrains Mono, flipped-dark hero panel, sharp-edge 2px buttons with mono kickers, hover-flip-to-dark service cards, marquee infrastructure, asymmetric gallery, pull-quote testimonials. Set `light` as the new default theme. (2) Updated `components/sections.py` + `components/booking.py` + `app.py` to match new class names (`.hero-kicker`, `.hero-metrics/.hero-metric`), added `render_marquee()` between hero and services with bilingual phrases, added numbered section kickers `01 — SERVICIOS` through `06 — CONTACTO`, upgraded option_menu palette from gold/dark-grey to editorial ink-on-cream. (3) Promoted nested canonical `losbarberos-quito/` → root via rsync, deleted nested folder, logo.svg now at root `assets/`. (4) Updated `.streamlit/config.toml` to cream palette + `enableStaticServing = true`. (5) Pending: git commit + push to trigger auto-redeploy on Streamlit Cloud.
-- **2026-04-18 — Cowork** — Deployed Los Barberos to Streamlit Community Cloud via Claude in Chrome (Sebastián was already logged into GitHub as `miteproyects` and Streamlit Cloud). Repo `miteproyects/losbarberos-quito` already existed (public, contains both root `app.py` AND nested `losbarberos-quito/` subfolder with canonical newer files). Deployed from root `app.py` as the safer choice since Streamlit's file-path autocomplete only surfaced root-level files. Live at **https://losbarberosquito.streamlit.app**. Caveats: the deployed root `app.py` is the older copy — the 3 unfixed UI bugs (logo not rendering, theme toggle shape, Inicio tab bleed) will be visible. To upgrade, resolve the nested-canonical Gotcha first, then push and auto-redeploy.
-- **2026-04-18 — Claude Code (T4)** — Picked up Phase 1 task 1 (delete nested `losbarberos-quito/`). **BLOCKED** at the safety-check step: `diff -rq` showed the nested folder is NOT a clean duplicate — `app.py`, `components/{config,sections,styles}.py` all diverge, and on every divergent file the nested copy is newer (mtimes 16:25–17:42) and larger than the parent (16:08–16:20). `assets/logo.svg` exists only in the nested copy. Conclusion: nested is the de facto canonical working copy; deleting it would discard Sebastián's most recent edits and the brand logo. No destructive action taken. Pinned finding as Gotcha + updated Key Files row. Baton → Cowork with full diagnostic for re-plan.
-- **2026-04-18 — Cowork** — First successful cross-side `syncbp` after workspace remount. Acknowledged Claude Code's T1 scaffolding, proposed Phase 1 "Clean & Fix" queue (delete nested duplicate → fix 3 UI bugs → wire git remote), populated `Next Actions`. Baton → Claude Code with task 1 (delete nested duplicate) as the immediate pickup.
+<!-- empty -->
 
 ---
 

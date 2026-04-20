@@ -20,9 +20,16 @@ EMAIL = "hola@losbarberosquito.com"  # TODO
 ADDRESS_ES = "Quito, Ecuador"
 ADDRESS_EN = "Quito, Ecuador"
 GOOGLE_MAPS_EMBED = (
-    # Default: Quito city center. Replace with a real Google Maps embed src.
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15949.07!2d-78.48!3d-0.18!"
-    "2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMTAnNDguMCJTIDc4wrAyOCc0OC4wIlc!5e0"
+    # Iframe-safe Google Maps embed (pb= format, no API key needed).
+    # Generated for Quito, Ecuador city center. To point at the real shop address,
+    # open Google Maps → search the address → Share → Embed a map → copy the `src=...`
+    # value from the <iframe> snippet and paste it here.
+    "https://www.google.com/maps/embed?pb="
+    "!1m18!1m12!1m3!1d15956.28!2d-78.4983!3d-0.1807"
+    "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1"
+    "!3m3!1m2!1s0x91d59a4002427c5f%3A0x44b991e158ef5572"
+    "!2sQuito%2C+Ecuador!5e0!3m2!1sen!2sus"
+    "!4v1713500000000!5m2!1sen!2sus"
 )
 
 # ---- Social ----

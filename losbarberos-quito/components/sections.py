@@ -9,6 +9,7 @@ def _flat(html: str) -> str:
     return "\n".join(line.lstrip() for line in html.splitlines())
 
 from components.i18n import t, tlist
+from components.styles import logo_svg
 from components.config import (
     BUSINESS_NAME, TAGLINE_ES, TAGLINE_EN,
     WHATSAPP_NUMBER, PHONE_DISPLAY, EMAIL,
@@ -36,10 +37,15 @@ def render_hero():
     st.markdown(
         _flat(f"""
         <div class="hero fade-up">
-            <span class="hero-badge">{t('hero_badge')}</span>
-            <h1 class="display-xl">{title_html}</h1>
-            <p class="hero-sub">{t('hero_sub')}</p>
-            <div class="btn-row">
+            <div class="hero-logo-stage">
+                {logo_svg("hero-logo")}
+            </div>
+            <div style="text-align:center;">
+                <span class="hero-badge">{t('hero_badge')}</span>
+            </div>
+            <h1 class="display-xl" style="text-align:center;">{title_html}</h1>
+            <p class="hero-sub" style="margin-left:auto; margin-right:auto; text-align:center;">{t('hero_sub')}</p>
+            <div class="btn-row" style="justify-content:center;">
                 <a class="btn primary" href="#booking">✂️ {t('cta_book')}</a>
                 <a class="btn wa" href="{wa_url}" target="_blank">💬 {t('cta_whatsapp')}</a>
             </div>

@@ -9,7 +9,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 
 from components.i18n import init_lang, set_lang, t
-from components.styles import inject_css, floating_whatsapp, init_theme, toggle_theme
+from components.styles import inject_css, floating_whatsapp, init_theme, toggle_theme, logo_svg
 from components.config import BUSINESS_NAME
 from components.sections import (
     render_hero, render_services, render_gallery, render_about,
@@ -41,18 +41,22 @@ is_dark = st.session_state.theme == "dark"
 nav_col_brand, nav_col_actions = st.columns([3, 1.25])
 with nav_col_brand:
     st.markdown(
-        """
-        <div class="brand">
-            <span class="brand-dot"></span>
-            LOS <em>BARBEROS</em> · QUITO
-        </div>
+        f"""
+        <a class="brand-logo-wrap" href="#home" title="Los Barberos Quito">
+            {logo_svg("brand-logo")}
+            <span class="brand-text">
+                <span class="brand-top">Los</span>
+                <span class="brand-bot">BARBEROS <span>·</span> QUITO</span>
+            </span>
+        </a>
         """,
         unsafe_allow_html=True,
     )
 with nav_col_actions:
+    st.markdown('<div class="nav-actions-row">', unsafe_allow_html=True)
     tcol, escol, encol = st.columns([1, 1, 1])
     with tcol:
-        st.markdown('<div class="theme-toggle-wrap">', unsafe_allow_html=True)
+        st.markdown('<div class="nav-pill theme-toggle-wrap">', unsafe_allow_html=True)
         theme_icon = "🌙" if is_dark else "☀️"
         theme_help = "Switch to light mode" if is_dark else "Switch to dark mode"
         if st.button(theme_icon, key="theme_toggle_top", help=theme_help,
@@ -61,15 +65,20 @@ with nav_col_actions:
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
     with escol:
+        st.markdown('<div class="nav-pill nav-lang-wrap">', unsafe_allow_html=True)
         if st.button("ES", use_container_width=True, key="lang_es",
                      type="primary" if st.session_state.lang == "es" else "secondary"):
             set_lang("es")
             st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
     with encol:
+        st.markdown('<div class="nav-pill nav-lang-wrap">', unsafe_allow_html=True)
         if st.button("EN", use_container_width=True, key="lang_en",
                      type="primary" if st.session_state.lang == "en" else "secondary"):
             set_lang("en")
             st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ---- Section menu ----

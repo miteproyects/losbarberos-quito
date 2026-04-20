@@ -81,7 +81,7 @@ def render_booking():
     st.markdown(
         _flat(f"""
         <div class="fade-up">
-            <div class="kicker">{t('book_kicker')}</div>
+            <div class="kicker"><span class="sec-num">03</span>{t('book_kicker')}</div>
             <h2 class="section-title">{t('book_title')}</h2>
             <p class="muted">{t('book_sub')}</p>
         </div>
@@ -134,16 +134,19 @@ def render_booking():
         svc_name = service["name_es"] if lang == "es" else service["name_en"]
         st.markdown(
             _flat(f"""
-            <div style="padding:1.5rem; border-radius:20px; background:var(--card-bg); border:1px solid var(--line); position:sticky; top:1rem; backdrop-filter: blur(14px);">
-                <h3 style="color:var(--gold); letter-spacing:2px;">{t('summary_title')}</h3>
-                <table style="width:100%; margin-top:.75rem;">
-                    <tr><td style="color:var(--text-dim);padding:.35rem 0;">{t('f_service')}</td><td style="text-align:right;font-weight:600;">{service['icon']} {svc_name}</td></tr>
-                    <tr><td style="color:var(--text-dim);padding:.35rem 0;">{t('f_barber')}</td><td style="text-align:right;font-weight:600;">{barber}</td></tr>
-                    <tr><td style="color:var(--text-dim);padding:.35rem 0;">{t('f_date')}</td><td style="text-align:right;font-weight:600;">{appt_date}</td></tr>
-                    <tr><td style="color:var(--text-dim);padding:.35rem 0;">{t('f_time')}</td><td style="text-align:right;font-weight:600;">{appt_time or '—'}</td></tr>
-                    <tr><td style="color:var(--text-dim);padding:.35rem 0;border-top:1px dashed var(--line);">Total</td>
-                        <td style="text-align:right;font-family:'Bebas Neue';font-size:1.8rem;color:var(--gold);border-top:1px dashed var(--line);">${service['price']}</td></tr>
+            <div class="contact-card fade-up" style="position:sticky; top:1rem;">
+                <h3>{t('summary_title')}</h3>
+                <table class="hours-table" style="margin-top:.75rem;">
+                    <tr><td>{t('f_service')}</td><td>{service['icon']} {svc_name}</td></tr>
+                    <tr><td>{t('f_barber')}</td><td>{barber}</td></tr>
+                    <tr><td>{t('f_date')}</td><td>{appt_date}</td></tr>
+                    <tr><td>{t('f_time')}</td><td>{appt_time or '—'}</td></tr>
                 </table>
+                <div class="divider" style="margin:1.25rem 0;"></div>
+                <div style="display:flex; justify-content:space-between; align-items:baseline;">
+                    <span style="font-family:'JetBrains Mono', monospace; font-size:.72rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted);">Total</span>
+                    <span style="font-family:'Fraunces', serif; font-style:italic; font-weight:300; font-size:2.5rem; color:var(--accent);">${service['price']}</span>
+                </div>
             </div>
             """),
             unsafe_allow_html=True,

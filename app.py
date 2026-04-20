@@ -12,7 +12,7 @@ from components.i18n import init_lang, set_lang, t
 from components.styles import inject_css, floating_whatsapp, init_theme, toggle_theme, logo_svg
 from components.config import BUSINESS_NAME
 from components.sections import (
-    render_hero, render_marquee, render_services, render_gallery, render_about,
+    render_hero, render_services, render_gallery, render_about,
     render_testimonials, render_contact, render_footer,
 )
 from components.booking import render_booking
@@ -89,18 +89,9 @@ menu_labels = [
 ]
 icons = ["house", "scissors", "images", "calendar-check", "people", "geo-alt"]
 
-if is_dark:
-    menu_bg = "transparent"
-    menu_link_color = "#C9C6C0"
-    menu_link_selected_bg = "#F2EEE6"
-    menu_link_selected_color = "#141414"
-    menu_border = "1px solid rgba(245,238,230,.14)"
-else:
-    menu_bg = "transparent"
-    menu_link_color = "#141414"
-    menu_link_selected_bg = "#141414"
-    menu_link_selected_color = "#F2EEE6"
-    menu_border = "1px solid rgba(20,20,20,.12)"
+menu_bg = "rgba(23,23,27,.65)" if is_dark else "rgba(255,255,255,.85)"
+menu_link_color = "#B9B9C0" if is_dark else "#4A4A52"
+menu_link_selected_color = "#0B0B0D"
 
 selected = option_menu(
     menu_title=None,
@@ -109,21 +100,14 @@ selected = option_menu(
     orientation="horizontal",
     default_index=0,
     styles={
-        "container": {"background-color": menu_bg, "border-radius": "2px",
-                      "padding": "4px", "border": menu_border,
-                      "font-family": "'JetBrains Mono', monospace"},
-        "icon": {"color": "#A8762E", "font-size": "14px"},
-        "nav-link": {"font-size": "11px", "text-align": "center", "margin": "0px",
-                     "color": menu_link_color,
-                     "--hover-color": "rgba(168,118,46,.08)",
-                     "border-radius": "2px",
-                     "letter-spacing": "0.15em",
-                     "text-transform": "uppercase",
-                     "font-weight": "500",
-                     "font-family": "'JetBrains Mono', monospace"},
-        "nav-link-selected": {"background-color": menu_link_selected_bg,
-                              "color": menu_link_selected_color,
-                              "font-weight": "600"},
+        "container": {"background-color": menu_bg, "border-radius": "999px",
+                      "padding": "6px", "border": "1px solid rgba(212,162,76,.25)"},
+        "icon": {"color": "#D4A24C", "font-size": "16px"},
+        "nav-link": {"font-size": "14px", "text-align": "center", "margin": "0px",
+                     "color": menu_link_color, "--hover-color": "rgba(212,162,76,.12)",
+                     "border-radius": "999px"},
+        "nav-link-selected": {"background-color": "#D4A24C", "color": menu_link_selected_color,
+                              "font-weight": "700"},
     },
 )
 selected_key = menu_keys[menu_labels.index(selected)]
@@ -132,13 +116,11 @@ selected_key = menu_keys[menu_labels.index(selected)]
 # ---- Route ----
 if selected_key == "home":
     render_hero()
-    render_marquee()
     render_services()
     render_gallery()
     render_booking()
     render_testimonials()
 elif selected_key == "services":
-    render_marquee()
     render_services()
 elif selected_key == "gallery":
     render_gallery()

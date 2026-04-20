@@ -34,7 +34,6 @@ def render_hero():
         else "More than a <em>cut</em>.<br/>An <em>experience</em>."
     )
     wa_url = _whatsapp_link("Hola! Me gustaría reservar un turno en Los Barberos.")
-    scroll_label = "Desliza" if lang == "es" else "Scroll"
     st.markdown(
         _flat(f"""
         <div class="hero fade-up">
@@ -42,56 +41,22 @@ def render_hero():
                 {logo_svg("hero-logo")}
             </div>
             <div style="text-align:center;">
-                <span class="hero-kicker center">{t('hero_badge')}</span>
+                <span class="hero-badge">{t('hero_badge')}</span>
             </div>
             <h1 class="display-xl" style="text-align:center;">{title_html}</h1>
-            <p class="hero-sub">{t('hero_sub')}</p>
-            <div class="btn-row center">
-                <a class="btn primary" href="#booking">{t('cta_book')}</a>
-                <a class="btn wa" href="{wa_url}" target="_blank">{t('cta_whatsapp')}</a>
+            <p class="hero-sub" style="margin-left:auto; margin-right:auto; text-align:center;">{t('hero_sub')}</p>
+            <div class="btn-row" style="justify-content:center;">
+                <a class="btn primary" href="#booking">✂️ {t('cta_book')}</a>
+                <a class="btn wa" href="{wa_url}" target="_blank">💬 {t('cta_whatsapp')}</a>
             </div>
-            <div class="hero-metrics">
-                <div class="hero-metric"><div class="num">15k+</div><div class="lbl">{t('m_clients')}</div></div>
-                <div class="hero-metric"><div class="num">10+</div><div class="lbl">{t('m_years')}</div></div>
-                <div class="hero-metric"><div class="num">4.8★</div><div class="lbl">{t('m_rating')}</div></div>
-                <div class="hero-metric"><div class="num">{len(BARBERS)}</div><div class="lbl">{t('m_barbers')}</div></div>
+            <div class="metrics">
+                <div class="metric"><div class="num">15k+</div><div class="lbl">{t('m_clients')}</div></div>
+                <div class="metric"><div class="num">10+</div><div class="lbl">{t('m_years')}</div></div>
+                <div class="metric"><div class="num">4.8★</div><div class="lbl">{t('m_rating')}</div></div>
+                <div class="metric"><div class="num">{len(BARBERS)}</div><div class="lbl">{t('m_barbers')}</div></div>
             </div>
-            <div class="scroll-hint">{scroll_label} ↓</div>
         </div>
         """),
-        unsafe_allow_html=True,
-    )
-
-
-# -----------------------------------------------------------------
-# Marquee — infinite editorial scroll of service names
-# -----------------------------------------------------------------
-def render_marquee():
-    lang = st.session_state.lang
-    phrases_es = [
-        "Corte <em>clásico</em>",
-        "Barba <em>afeitada</em>",
-        "Ritual <em>Los Barberos</em>",
-        "Color &amp; <em>camuflaje</em>",
-        "Niños &amp; <em>padres</em>",
-        "Agenda <em>tu turno</em>",
-    ]
-    phrases_en = [
-        "<em>Classic</em> cut",
-        "Shave &amp; <em>beard</em>",
-        "The <em>Los Barberos</em> ritual",
-        "Color &amp; <em>camouflage</em>",
-        "Kids &amp; <em>dads</em>",
-        "Book <em>your slot</em>",
-    ]
-    phrases = phrases_es if lang == "es" else phrases_en
-    track = ""
-    # Duplicate the phrases so the translateX(-50%) loop is seamless
-    for _ in range(2):
-        for p in phrases:
-            track += f'<span class="marquee__item">{p}<span class="marquee__sep">✦</span></span>'
-    st.markdown(
-        f'<div class="marquee fade-up"><div class="marquee__track">{track}</div></div>',
         unsafe_allow_html=True,
     )
 
@@ -105,7 +70,7 @@ def render_services():
     st.markdown(
         _flat(f"""
         <div class="fade-up">
-            <div class="kicker"><span class="sec-num">01</span>{t('services_kicker')}</div>
+            <div class="kicker">{t('services_kicker')}</div>
             <h2 class="section-title">{t('services_title')}</h2>
             <p class="muted">{t('services_sub')}</p>
         </div>
@@ -140,7 +105,7 @@ def render_gallery():
     st.markdown(
         _flat(f"""
         <div class="fade-up">
-            <div class="kicker"><span class="sec-num">02</span>{t('gallery_kicker')}</div>
+            <div class="kicker">{t('gallery_kicker')}</div>
             <h2 class="section-title">{t('gallery_title')}</h2>
         </div>
         """),
@@ -162,7 +127,7 @@ def render_about():
         st.markdown(
             _flat(f"""
             <div class="fade-up">
-                <div class="kicker"><span class="sec-num">04</span>{t('about_kicker')}</div>
+                <div class="kicker">{t('about_kicker')}</div>
                 <h2 class="section-title">{t('about_title')}</h2>
                 <p class="muted">{t('about_body')}</p>
                 <div class="pill-list">
@@ -210,7 +175,7 @@ def render_testimonials():
     st.markdown(
         _flat(f"""
         <div class="fade-up">
-            <div class="kicker"><span class="sec-num">05</span>{t('testi_kicker')}</div>
+            <div class="kicker">{t('testi_kicker')}</div>
             <h2 class="section-title">{t('testi_title')}</h2>
         </div>
         """),
@@ -245,7 +210,7 @@ def render_contact():
     st.markdown(
         _flat(f"""
         <div class="fade-up">
-            <div class="kicker"><span class="sec-num">06</span>{t('contact_kicker')}</div>
+            <div class="kicker">{t('contact_kicker')}</div>
             <h2 class="section-title">{t('contact_title')}</h2>
         </div>
         """),
@@ -260,21 +225,21 @@ def render_contact():
             hours = HOURS.get(d)
             label = t(f"day_{d}")
             val = f"{hours[0]} – {hours[1]}" if hours else t("closed")
-            rows += f"<tr><td>{label}</td><td>{val}</td></tr>"
+            rows += f"<tr><td style='padding:.35rem 0;color:var(--text-dim);'>{label}</td><td style='text-align:right;font-weight:600;'>{val}</td></tr>"
         wa = _whatsapp_link("Hola!")
         addr = ADDRESS_ES if lang == "es" else ADDRESS_EN
         st.markdown(
             _flat(f"""
-            <div class="contact-card fade-up">
-                <h3>{t('contact_hours')}</h3>
-                <table class="hours-table">{rows}</table>
-                <div class="divider" style="margin:1.5rem 0;"></div>
-                <h3>{t('contact_where')}</h3>
-                <p class="muted" style="margin:.35rem 0;">📍 {addr}</p>
-                <p class="muted" style="margin:.35rem 0;">📱 <a href="{wa}" target="_blank">{PHONE_DISPLAY}</a></p>
-                <p class="muted" style="margin:.35rem 0;">✉️ <a href="mailto:{EMAIL}">{EMAIL}</a></p>
-                <div class="divider" style="margin:1.5rem 0;"></div>
-                <h3>{t('contact_followus')}</h3>
+            <div style="padding:1.5rem; border-radius:20px; background:var(--card-bg); border:1px solid var(--line); backdrop-filter: blur(14px);">
+                <h3 style="color:var(--gold); letter-spacing:2px;">{t('contact_hours')}</h3>
+                <table style="width:100%; border-collapse:collapse;">{rows}</table>
+                <div class="divider" style="margin:1.25rem 0;"></div>
+                <h3 style="color:var(--gold); letter-spacing:2px;">{t('contact_where')}</h3>
+                <p class="muted">📍 {addr}</p>
+                <p class="muted">📱 <a style="color:var(--gold);text-decoration:none;" href="{wa}" target="_blank">{PHONE_DISPLAY}</a></p>
+                <p class="muted">✉️ <a style="color:var(--gold);text-decoration:none;" href="mailto:{EMAIL}">{EMAIL}</a></p>
+                <div class="divider" style="margin:1.25rem 0;"></div>
+                <h3 style="color:var(--gold); letter-spacing:2px;">{t('contact_followus')}</h3>
                 <div class="btn-row" style="margin-top:.75rem;">
                     <a class="btn ghost" href="{FACEBOOK}" target="_blank">Facebook</a>
                     <a class="btn ghost" href="{INSTAGRAM}" target="_blank">Instagram</a>

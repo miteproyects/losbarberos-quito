@@ -12,7 +12,13 @@ from components.config import WHATSAPP_NUMBER
 # ---- Load the Los Barberos logo once at import time ----
 _LOGO_PATH = Path(__file__).resolve().parent.parent / "assets" / "logo.svg"
 try:
-    LOGO_SVG = _LOGO_PATH.read_text(encoding="utf-8")
+    _RAW_SVG = _LOGO_PATH.read_text(encoding="utf-8")
+    # CRITICAL: Streamlit's markdown parser treats lines indented by 4+ spaces
+    # as code blocks even inside `unsafe_allow_html=True`. The logo.svg has
+    # nested groups with 4–8-space indentation, which leaks into the page as
+    # `<pre><code>` containing raw SVG XML. Collapse the SVG into a single
+    # de-indented line so the parser sees it as inline HTML.
+    LOGO_SVG = " ".join(line.strip() for line in _RAW_SVG.splitlines() if line.strip())
 except FileNotFoundError:
     LOGO_SVG = ""
 
